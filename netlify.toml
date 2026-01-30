@@ -1,0 +1,74 @@
+# Netlify Configuration File
+# Für: iso-9001-fehler.qm-guru.de
+
+[build]
+  # Publish directory (welcher Ordner wird deployed)
+  publish = "landing-page"
+  
+  # Build command (nicht nötig, da statische Seite)
+  command = "echo 'No build needed for static site'"
+
+# Production context
+[context.production]
+  publish = "landing-page"
+
+# Deploy preview context (für Pull Requests)
+[context.deploy-preview]
+  publish = "landing-page"
+
+# Branch deploy context
+[context.branch-deploy]
+  publish = "landing-page"
+
+# Headers für Security & Performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security Headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    
+    # Performance Headers
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Spezielle Headers für HTML (keine lange Caches)
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Headers für Bilder (lange Caches ok)
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Redirects (falls nötig)
+# [[redirects]]
+#   from = "/alte-seite"
+#   to = "/"
+#   status = 301
+#   force = true
+
+# 404 Error Page (optional - später hinzufügen)
+# [[redirects]]
+#   from = "/*"
+#   to = "/404.html"
+#   status = 404
+
+# Custom Domain Settings
+# [build.environment]
+#   SITE_URL = "https://iso-9001-fehler.qm-guru.de"
